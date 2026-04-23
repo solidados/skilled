@@ -1,0 +1,17 @@
+node_modules
+.DS_Store
+dist
+dist-ssr
+*.local
+.env
+.nitro
+.tanstack
+.wrangler
+.output
+.vinxi
+.idea
+.vscode
+pnpm-lock.yaml
+package-lock.json
+__unconfig*
+todos.json
