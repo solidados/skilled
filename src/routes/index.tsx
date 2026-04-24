@@ -36,7 +36,7 @@ function Home() {
 					</h2>
 					<p>
 						{" "}
-						Latest skills loaded from src/lib/dummySkills.ts in descending creation order.
+						Latest skills shown in descending creation order.
 					</p>
 				</div>
 				

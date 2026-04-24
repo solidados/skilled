@@ -1,6 +1,6 @@
+import { type FC, useEffect, useRef, useState } from 'react';
 import { Link } from '@tanstack/react-router';
 import { ArrowBigUp, ArrowUpRight, BookMarkedIcon, Check, Copy, MessageSquare } from 'lucide-react';
-import { type FC, useEffect, useRef, useState } from 'react';
 
 interface SkillCardProps {
   authorEmail: string | null | undefined;
@@ -77,7 +77,10 @@ const SkillCard: FC<SkillCardProps> = (props) => {
             <img src="/logo512.png" alt="author avatar" className="avatar" />
             <div className="author-copy">
               <p>Pavel</p>
-              <p>{createdAt ? new Date(createdAt).toLocaleDateString("am-AM") : 'N/A'}</p>
+              <p>{createdAt
+                ? new Date(createdAt as string).toLocaleDateString("am-AM")
+                : 'Unknown date'
+              }</p>
             </div>
           </div>
           
