@@ -76,11 +76,17 @@ const SkillCard: FC<SkillCardProps> = (props) => {
           <div className="author">
             <img src="/logo512.png" alt="author avatar" className="avatar" />
             <div className="author-copy">
-              <p>Pavel</p>
-              <p>{createdAt
-                ? new Date(createdAt as string).toLocaleDateString("am-AM")
-                : 'Unknown date'
-              }</p>
+              <p>{authorEmail ?? "Unknown author"}</p>
+              {/*<p>{createdAt ? new Date(createdAt).toLocaleDateString("am-AM") : 'N/A'}</p>*/}
+              <p>
+                {(() => {
+                  if (!createdAt) return "N/A";
+                  const parsed = new Date(createdAt);
+                  return Number.isNaN(parsed.getTime())
+                    ? "N/A"
+                      : parsed.toLocaleDateString("am-AM");
+                })()}
+              </p>
             </div>
           </div>
           
