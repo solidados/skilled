@@ -14,7 +14,7 @@ function Home() {
 					<span className="text-gradient">Agentic Intelligence</span>
 					</h1>
 					<p>
-						A high-performance registry for procedural agent skills. Doscover, publish, and operate reusable agent capabilities from a route-driven workspace.
+						A high-performance registry for procedural agent skills. Discover, publish, and operate reusable agent capabilities from a route-driven workspace.
 					</p>
 				</div>
 				<div className="actions">
@@ -36,7 +36,7 @@ function Home() {
 					</h2>
 					<p>
 						{" "}
-						Latest skills loaded from database in descending creation order.
+						Latest skills loaded from src/lib/dummySkills.ts in descending creation order.
 					</p>
 				</div>
 				

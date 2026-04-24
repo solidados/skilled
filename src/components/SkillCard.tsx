@@ -1,11 +1,11 @@
 import { Link } from '@tanstack/react-router';
 import { ArrowBigUp, ArrowUpRight, BookMarkedIcon, Check, Copy, MessageSquare } from 'lucide-react';
-import { type FC, useState } from 'react';
+import { type FC, useEffect, useRef, useState } from 'react';
 
 interface SkillCardProps {
-  authorEmail: string;
+  authorEmail: string | null | undefined;
   category: string;
-  createdAt: string;
+  createdAt: string | null | undefined;
   description: string;
   installCommand: string;
   tags: string[];
@@ -24,19 +24,39 @@ const SkillCard: FC<SkillCardProps> = (props) => {
   } = props;
   
   const [ copied, setCopied ] = useState<boolean>(false);
-  
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(installCommand)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+    try {
+      await navigator.clipboard.writeText(installCommand);
+      setCopied(true);
+
+      // Clear any existing timeout before setting a new one
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+
+      timeoutRef.current = setTimeout(() => setCopied(false), 2000);
+    } catch (error) {
+      console.error('Failed to copy to clipboard:', error);
+    }
   };
+
+  useEffect(() => {
+    // Cleanup timeout on unmount
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
   
   return (
     <article className="skill-card">
       <Link
         to="/skills"
         tabIndex={-1}
-        area-label={`Open ${title}`}
+        aria-label={`Open ${title}`}
         className="overlay"
       />
       
@@ -57,7 +77,7 @@ const SkillCard: FC<SkillCardProps> = (props) => {
             <img src="/logo512.png" alt="author avatar" className="avatar" />
             <div className="author-copy">
               <p>Pavel</p>
-              <p>{new Date(createdAt as string).toLocaleDateString("am-AM")}</p>
+              <p>{createdAt ? new Date(createdAt).toLocaleDateString("am-AM") : 'N/A'}</p>
             </div>
           </div>
           
@@ -81,7 +101,7 @@ const SkillCard: FC<SkillCardProps> = (props) => {
           type="button"
           className="copy"
           onClick={handleCopy}
-          area-label="Copy install command"
+          aria-label="Copy install command"
         >
           {!copied ? <Copy size={16} /> : <Check color="green" size={16} />}
         </button>
@@ -106,7 +126,7 @@ const SkillCard: FC<SkillCardProps> = (props) => {
               <ArrowUpRight size={14} />
             </Link>
             
-            <button type="button" className="save" area-label="Saved state" disabled>
+            <button type="button" className="save" aria-label="Saved state" disabled>
               <BookMarkedIcon size={16} />
             </button>
           </div>
