@@ -1,7 +1,7 @@
-import SkillCard from '#/components/SkillCard.tsx';
-import { dummySkills } from '#/lib/dummySkills.ts';
-import { createFileRoute, Link } from '@tanstack/react-router';
-import { Terminal } from 'lucide-react';
+import SkillCard from "#/components/SkillCard.tsx";
+import { dummySkills } from "#/lib/dummySkills.ts";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Terminal } from "lucide-react";
 
 export const Route = createFileRoute("/")({ component: Home });
 
@@ -10,11 +10,14 @@ function Home() {
 		<div id="home">
 			<section className="hero">
 				<div className="copy">
-					<h1>The Registry for <br />
-					<span className="text-gradient">Agentic Intelligence</span>
+					<h1>
+						The Registry for <br />
+						<span className="text-gradient">Agentic Intelligence</span>
 					</h1>
 					<p>
-						A high-performance registry for procedural agent skills. Discover, publish, and operate reusable agent capabilities from a route-driven workspace.
+						A high-performance registry for procedural agent skills. Discover,
+						publish, and operate reusable agent capabilities from a route-driven
+						workspace.
 					</p>
 				</div>
 				<div className="actions">
@@ -27,31 +30,26 @@ function Home() {
 					</Link>
 				</div>
 			</section>
-			
+
 			<section className="latest">
 				<div className="space-y-2">
 					<h2>
 						Recently Created
 						<span className="text-gradient"></span>
 					</h2>
-					<p>
-						{" "}
-						Latest skills shown in descending creation order.
-					</p>
+					<p> Latest skills shown in descending creation order.</p>
 				</div>
-				
+
 				<div>
-					{
-						dummySkills.length > 0
-						? (
-							<div className="skills-grid">
-								{dummySkills.map((skill) => (
-									<SkillCard key={skill.id} {...skill} />
-								))}
-							</div>
-						)
-							 : <p>No skills have been created yet.</p>
-					}
+					{dummySkills.length > 0 ? (
+						<div className="skills-grid">
+							{dummySkills.map((skill) => (
+								<SkillCard key={skill.id} {...skill} />
+							))}
+						</div>
+					) : (
+						<p>No skills have been created yet.</p>
+					)}
 				</div>
 			</section>
 		</div>
