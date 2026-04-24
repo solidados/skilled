@@ -553,10 +553,11 @@
     }
 
     .copy {
-      @apply p-1 text-text-muted opacity-0 transition-opacity hover:text-white;
+      @apply p-1 text-text-muted opacity-0 transition-opacity hover:text-white select-none cursor-pointer focus-visible:opacity-100;
     }
 
-    &:hover .copy {
+    &:hover .copy,
+    &:focus-within .copy {
       @apply opacity-100;
     }
 
