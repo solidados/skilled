@@ -213,7 +213,7 @@
     }
 
     & > main {
-      @apply flex w-full flex-col items-center;
+      @apply flex w-full flex-col items-center py-16;
     }
 
     & > main > .frame {
