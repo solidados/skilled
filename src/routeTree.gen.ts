@@ -10,7 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as _authSingUpSplatRouteImport } from './routes/__auth/sing-up.$'
+import { Route as _authSignUpSplatRouteImport } from './routes/__auth/sign-up.$'
 import { Route as _authSignInSplatRouteImport } from './routes/__auth/sign-in.$'
 
 const IndexRoute = IndexRouteImport.update({
@@ -18,9 +18,9 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const _authSingUpSplatRoute = _authSingUpSplatRouteImport.update({
-  id: '/__auth/sing-up/$',
-  path: '/sing-up/$',
+const _authSignUpSplatRoute = _authSignUpSplatRouteImport.update({
+  id: '/__auth/sign-up/$',
+  path: '/sign-up/$',
   getParentRoute: () => rootRouteImport,
 } as any)
 const _authSignInSplatRoute = _authSignInSplatRouteImport.update({
@@ -32,31 +32,31 @@ const _authSignInSplatRoute = _authSignInSplatRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/sign-in/$': typeof _authSignInSplatRoute
-  '/sing-up/$': typeof _authSingUpSplatRoute
+  '/sign-up/$': typeof _authSignUpSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/sign-in/$': typeof _authSignInSplatRoute
-  '/sing-up/$': typeof _authSingUpSplatRoute
+  '/sign-up/$': typeof _authSignUpSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/__auth/sign-in/$': typeof _authSignInSplatRoute
-  '/__auth/sing-up/$': typeof _authSingUpSplatRoute
+  '/__auth/sign-up/$': typeof _authSignUpSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/sign-in/$' | '/sing-up/$'
+  fullPaths: '/' | '/sign-in/$' | '/sign-up/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/sign-in/$' | '/sing-up/$'
-  id: '__root__' | '/' | '/__auth/sign-in/$' | '/__auth/sing-up/$'
+  to: '/' | '/sign-in/$' | '/sign-up/$'
+  id: '__root__' | '/' | '/__auth/sign-in/$' | '/__auth/sign-up/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   _authSignInSplatRoute: typeof _authSignInSplatRoute
-  _authSingUpSplatRoute: typeof _authSingUpSplatRoute
+  _authSignUpSplatRoute: typeof _authSignUpSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -68,11 +68,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/__auth/sing-up/$': {
-      id: '/__auth/sing-up/$'
-      path: '/sing-up/$'
-      fullPath: '/sing-up/$'
-      preLoaderRoute: typeof _authSingUpSplatRouteImport
+    '/__auth/sign-up/$': {
+      id: '/__auth/sign-up/$'
+      path: '/sign-up/$'
+      fullPath: '/sign-up/$'
+      preLoaderRoute: typeof _authSignUpSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/__auth/sign-in/$': {
@@ -88,17 +88,18 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   _authSignInSplatRoute: _authSignInSplatRoute,
-  _authSingUpSplatRoute: _authSingUpSplatRoute,
+  _authSignUpSplatRoute: _authSignUpSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
 
 import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
+import type { startInstance } from './start.ts'
 declare module '@tanstack/react-start' {
   interface Register {
     ssr: true
     router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
   }
 }
