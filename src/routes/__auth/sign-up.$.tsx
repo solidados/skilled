@@ -5,6 +5,11 @@ export const Route = createFileRoute("/__auth/sign-up/$")({
 	component: RouteComponent,
 });
 
+/**
+ * Renders the sign-up section containing Clerk's SignUp UI configured for path-based routing.
+ *
+ * @returns The section element that mounts the configured `SignUp` component.
+ */
 function RouteComponent() {
 	return (
 		<section id="sign-up">
