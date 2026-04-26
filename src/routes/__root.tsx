@@ -38,10 +38,10 @@ if (typeof window !== "undefined") {
 function PostHogIdentifier() {
 	const posthog = usePostHog();
 	const { user, isSignedIn, isLoaded } = useUser();
-	
+
 	useEffect(() => {
 		if (!isLoaded) return;
-		
+
 		if (isSignedIn && user) {
 			posthog.identify(user.id, {
 				email: user.primaryEmailAddress?.emailAddress,
@@ -51,7 +51,7 @@ function PostHogIdentifier() {
 			posthog.reset();
 		}
 	}, [isLoaded, isSignedIn, user?.id]);
-	
+
 	return null;
 }
 

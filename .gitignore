@@ -11,7 +11,13 @@ dist-ssr
 .vinxi
 .idea
 .vscode
+.claude
+.agents
 pnpm-lock.yaml
 package-lock.json
 __unconfig*
 todos.json
+
+# firebase data connect
+.firebase
+dataconnect/.dataconnect
