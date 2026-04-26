@@ -1,4 +1,5 @@
 import { type FC, useEffect, useRef, useState } from "react";
+import { usePostHog } from "posthog-js/react";
 import { Link } from "@tanstack/react-router";
 import {
 	ArrowBigUp,
@@ -8,30 +9,35 @@ import {
 	Copy,
 	MessageSquare,
 } from "lucide-react";
+import type { GetSkillsData } from '#/dataconnect-generated';
 
-interface SkillCardProps {
-	authorEmail: string | null | undefined;
-	category: string;
-	createdAt: string | null | undefined;
-	description: string;
-	installCommand: string;
-	tags: string[];
-	title: string;
-}
+type SkillCardProps = GetSkillsData["skills"][number];
+
+// interface SkillCardProps {
+	// authorEmail: string | null | undefined;
+	// category: string;
+	// createdAt: string | null | undefined;
+	// description: string;
+	// installCommand: string;
+	// tags: string[];
+	// title: string;
+	// author: string;
+// }
 
 const SkillCard: FC<SkillCardProps> = (props) => {
 	const {
-		authorEmail,
-		category,
 		createdAt,
 		description,
 		installCommand,
 		tags,
 		title,
+		author
 	} = props;
 
+	const posthog = usePostHog();
 	const [copied, setCopied] = useState<boolean>(false);
 	const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+	const category = tags[0] ?? "General"
 
 	const handleCopy = async () => {
 		try {
@@ -44,6 +50,11 @@ const SkillCard: FC<SkillCardProps> = (props) => {
 			}
 
 			timeoutRef.current = setTimeout(() => setCopied(false), 2000);
+			posthog.capture("install_command_copied", {
+				skill_title: title,
+				skill_category: category,
+				install_command: installCommand,
+			});
 		} catch (error) {
 			console.error("Failed to copy to clipboard:", error);
 		}
@@ -81,9 +92,13 @@ const SkillCard: FC<SkillCardProps> = (props) => {
 			<div className="body">
 				<div className="meta">
 					<div className="author">
-						<img src="/logo512.png" alt="author avatar" className="avatar" />
+						<img
+							src={author.imageUrl || '/logo512.png'}
+							alt={`${author.username} avatar`}
+							className="avatar"
+						/>
 						<div className="author-copy">
-							<p>{authorEmail ?? "Unknown author"}</p>
+							<p>{author.username}</p>
 							{/*<p>{createdAt ? new Date(createdAt).toLocaleDateString("am-AM") : 'N/A'}</p>*/}
 							<p>
 								{(() => {
@@ -132,12 +147,22 @@ const SkillCard: FC<SkillCardProps> = (props) => {
 
 						<div className="comments">
 							<MessageSquare size={14} />
-							<span>{authorEmail ? 1 : 0}</span>
+							<span>{author.email ? 1 : 0}</span>
 						</div>
 					</div>
 
 					<div className="actions">
-						<Link to="/skills" className="open" title={`Open ${title}`}>
+						<Link
+							to="/skills"
+							className="open"
+							title={`Open ${title}`}
+							onClick={() =>
+								posthog.capture("skill_opened", {
+									skill_title: title,
+									skill_category: category,
+								})
+							}
+						>
 							<span>Open</span>
 							<ArrowUpRight size={14} />
 						</Link>
