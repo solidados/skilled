@@ -26,6 +26,11 @@ export const Route = createFileRoute("/")({
 	loader: () => getSkillsFn(),
 });
 
+/**
+ * Render the home page with hero controls and a "Recently Created" section populated from the route loader.
+ *
+ * @returns The React element for the home route, including hero actions and a grid of recently created skills or an empty-state message.
+ */
 function Home() {
 	const skills = Route.useLoaderData();
 

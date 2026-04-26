@@ -27,6 +27,13 @@ export const getSkillsRef = (dcOrVars, vars) => {
 };
 getSkillsRef.operationName = "GetSkills";
 
+/**
+ * Execute the GetSkills query and return its result.
+ * @param {(object|string|undefined)} dcOrVars - Data Connect instance or variables for the query; if a Data Connect instance is provided, variables should be passed via subsequent parameters.
+ * @param {(object|object[]|undefined)} varsOrOptions - Variables for the query or an options object when `dcOrVars` is a Data Connect instance.
+ * @param {object|undefined} options - Optional execution options (e.g., fetchPolicy) when `dcOrVars` is a Data Connect instance.
+ * @returns {any} The result of the GetSkills query.
+ */
 export function getSkills(dcOrVars, varsOrOptions, options) {
 	const {
 		dc: dcInstance,

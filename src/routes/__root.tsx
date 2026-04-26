@@ -35,6 +35,14 @@ if (typeof window !== "undefined") {
 	});
 }
 
+/**
+ * Synchronizes Clerk authentication state to the PostHog client.
+ *
+ * When Clerk finishes loading, identifies the user in PostHog using the Clerk user id
+ * and the user's email and full name when signed in; otherwise resets the PostHog client.
+ *
+ * @returns Null — this component does not render any UI.
+ */
 function PostHogIdentifier() {
 	const posthog = usePostHog();
 	const { user, isSignedIn, isLoaded } = useUser();
@@ -82,6 +90,12 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 	shellComponent: RootDocument,
 });
 
+/**
+ * Renders the root HTML document and application shell, wrapping the app content with analytics, auth, and developer tooling.
+ *
+ * @param children - Content to render inside the app's main area
+ * @returns The root HTML document element containing the app shell and `children`
+ */
 function RootDocument({ children }: { children: React.ReactNode }) {
 	return (
 		<PostHogProvider client={posthog}>
